@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Italia In Tour – Book your trip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand: #991435;
+    --brand-dark: #660d23;
+    --ink: #2a1a1e;
+    --muted: #6d5a5f;
+    --paper: #fbf6f7;
+    --line: #e8d6da;
+    --white: #fff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Work Sans", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.65;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; line-height: 1.2; }
+  a { color: var(--brand); }
+  :focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+
+  /* Header */
+  .site-header {
+    background: var(--white);
+    border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .bar {
+    max-width: 1100px; margin: 0 auto; padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .logo {
+    font-family: "Fraunces", Georgia, serif; font-weight: 700; font-size: 1.4rem;
+    color: var(--brand); text-decoration: none;
+  }
+  nav { display: flex; gap: 6px; }
+  nav a {
+    text-decoration: none; color: var(--ink); font-weight: 500;
+    padding: 8px 14px; border-radius: 6px;
+  }
+  nav a:hover { background: var(--paper); }
+  nav a.active { background: var(--brand); color: var(--white); }
+  .menu-btn {
+    display: none; background: none; border: 1px solid var(--line);
+    border-radius: 6px; padding: 8px 12px; font: inherit; cursor: pointer; color: var(--ink);
+  }
+
+  /* Pages */
+  main { flex: 1; }
+  .page { display: none; }
+  .page.active { display: block; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+  .narrow { max-width: 760px; }
+
+  .hero { background: var(--brand); color: var(--white); }
+  .hero .wrap { padding: 56px 20px 48px; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); max-width: 18ch; }
+  .hero p { margin-top: 14px; max-width: 56ch; opacity: .92; font-size: 1.05rem; }
+
+  .widget-box {
+    background: var(--white); border: 1px solid var(--line); border-radius: 10px;
+    padding: 20px; margin-top: -1px; min-height: 300px;
+  }
+  .widget-wrap { max-width: 1100px; margin: 0 auto; padding: 32px 20px 56px; }
+
+  h2 { font-size: 1.9rem; margin-bottom: 14px; }
+  .lead { color: var(--muted); font-size: 1.05rem; margin-bottom: 28px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 24px; }
+  .grid h3 { font-size: 1.15rem; margin-bottom: 6px; color: var(--brand-dark); }
+  .grid p { color: var(--muted); }
+  .grid > div { border-top: 3px solid var(--brand); padding-top: 14px; }
+
+  /* Contact form */
+  form { display: grid; gap: 16px; margin-top: 8px; }
+  label { font-weight: 500; display: grid; gap: 6px; }
+  input, textarea {
+    font: inherit; padding: 11px 12px; border: 1px solid var(--line);
+    border-radius: 6px; background: var(--white); color: var(--ink);
+  }
+  textarea { min-height: 130px; resize: vertical; }
+  button.primary {
+    font: inherit; font-weight: 600; background: var(--brand); color: var(--white);
+    border: 0; padding: 12px 22px; border-radius: 6px; cursor: pointer; justify-self: start;
+  }
+  button.primary:hover { background: var(--brand-dark); }
+  .note { margin-top: 12px; color: var(--brand-dark); font-weight: 500; }
+
+  /* Footer */
+  .site-footer { background: var(--ink); color: #d9cfc3; }
+  .foot {
+    max-width: 1100px; margin: 0 auto; padding: 32px 20px;
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px;
+  }
+  .foot a { color: #f0e4d4; text-decoration: none; margin-right: 16px; }
+  .foot a:hover { text-decoration: underline; }
+  .foot small { display: block; width: 100%; opacity: .7; border-top: 1px solid #4a3d31; padding-top: 16px; }
+
+  @media (max-width: 680px) {
+    .menu-btn { display: block; }
+    nav { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column;
+          background: var(--white); border-bottom: 1px solid var(--line); padding: 8px 20px 14px; }
+    nav.open { display: flex; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="bar">
+    <a class="logo" href="#home">Italia In Tour</a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainNav">Menu</button>
+    <nav id="mainNav" aria-label="Main">
+      <a href="#home" data-page="home">Book</a>
+      <a href="#about" data-page="about">About</a>
+      <a href="#contact" data-page="contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section class="page" id="page-home">
+    <div class="hero">
+      <div class="wrap">
+        <h1>Find and book your next trip in Italy</h1>
+        <p>Browse tours and experiences, pick your dates, and book directly below.</p>
+      </div>
+    </div>
+    <div class="widget-wrap">
+      <div class="widget-box">
+        <div id="partner-widget-2"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="page" id="page-about">
+    <div class="wrap narrow">
+      <h2>About us</h2>
+      <p class="lead">We connect travelers with local tours, guides and experiences across Italy.</p>
+      <p>Our team works with regional partners so you can see real availability and book without back-and-forth emails. Every listing is managed by the people who run it.</p>
+      <div class="grid">
+        <div><h3>Local partners</h3><p>Operators and guides who know their region first-hand.</p></div>
+        <div><h3>Live availability</h3><p>Dates and prices shown in the booking tool are current.</p></div>
+        <div><h3>Direct support</h3><p>Questions before or after booking go to a real person.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="page" id="page-contact">
+    <div class="wrap narrow">
+      <h2>Contact</h2>
+      <p class="lead">Send a message and we will reply by email.</p>
+      <form id="contactForm">
+        <label>Name <input type="text" name="name" required autocomplete="name"></label>
+        <label>Email <input type="email" name="email" required autocomplete="email"></label>
+        <label>Message <textarea name="message" required></textarea></label>
+        <button class="primary" type="submit">Send message</button>
+      </form>
+      <p class="note" id="formNote" role="status" hidden></p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="foot">
+    <div>
+      <strong>Italia In Tour</strong><br>
+      Tours and experiences across Italy.
+    </div>
+    <div>
+      <a href="#home">Book</a><a href="#about">About</a><a href="#contact">Contact</a>
+    </div>
+    <small>&copy; <span id="year"></span> Italia In Tour. All rights reserved.</small>
+  </div>
+</footer>
+
+<script>
+  // Simple hash router: one HTML file, three views
+  const pages = ['home', 'about', 'contact'];
+  const nav = document.getElementById('mainNav');
+  const menuBtn = document.getElementById('menuBtn');
+
+  function route() {
+    const hash = (location.hash || '#home').slice(1);
+    const current = pages.includes(hash) ? hash : 'home';
+    pages.forEach(p => {
+      document.getElementById('page-' + p).classList.toggle('active', p === current);
+    });
+    document.querySelectorAll('nav a').forEach(a => {
+      a.classList.toggle('active', a.dataset.page === current);
+    });
+    nav.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', route);
+  route();
+
+  menuBtn.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open);
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Contact form: front-end only. Replace with your endpoint.
+  document.getElementById('contactForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const note = document.getElementById('formNote');
+    note.textContent = 'Message sent. We will reply by email.';
+    note.hidden = false;
+    e.target.reset();
+  });
+</script>
+
+<!-- Partner widget -->
+<script
+    src="http://127.0.0.1:8000/widget.js?v=1792470597"
+    data-api-key="cq274lOq8iMiramQEvUPUmMXlsrFyOHnlxe0nmGgI8SiJvcNl8G4xGNO1S5rO2TU"
+    data-widget-id="2"
+    data-theme="#991435"
+    defer></script>
+
+</body>
+</html>
